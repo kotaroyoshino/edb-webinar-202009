@@ -1,0 +1,1904 @@
+[ec2-user@ip-10-0-11-229 DB_Cluster_AWS]$ terraform apply
+module.edb-db-cluster.data.aws_ami.centos_ami: Refreshing state...
+
+An execution plan has been generated and is shown below.
+Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # module.edb-db-cluster.aws_route.vip will be created
+  + resource "aws_route" "vip" {
+      + destination_cidr_block     = "10.10.0.1/32"
+      + destination_prefix_list_id = (known after apply)
+      + egress_only_gateway_id     = (known after apply)
+      + gateway_id                 = (known after apply)
+      + id                         = (known after apply)
+      + instance_id                = (known after apply)
+      + instance_owner_id          = (known after apply)
+      + local_gateway_id           = (known after apply)
+      + nat_gateway_id             = (known after apply)
+      + network_interface_id       = (known after apply)
+      + origin                     = (known after apply)
+      + route_table_id             = "rtb-06bfed7eedf87b732"
+      + state                      = (known after apply)
+    }
+
+  # module.edb-db-cluster.aws_security_group.edb_sg[0] will be created
+  + resource "aws_security_group" "edb_sg" {
+      + arn                    = (known after apply)
+      + description            = "Rule for edb-terraform-resource"
+      + egress                 = [
+          + {
+              + cidr_blocks      = [
+                  + "0.0.0.0/0",
+                ]
+              + description      = ""
+              + from_port        = 0
+              + ipv6_cidr_blocks = []
+              + prefix_list_ids  = []
+              + protocol         = "-1"
+              + security_groups  = []
+              + self             = false
+              + to_port          = 0
+            },
+        ]
+      + id                     = (known after apply)
+      + ingress                = [
+          + {
+              + cidr_blocks      = [
+                  + "0.0.0.0/0",
+                ]
+              + description      = ""
+              + from_port        = -1
+              + ipv6_cidr_blocks = []
+              + prefix_list_ids  = []
+              + protocol         = "icmp"
+              + security_groups  = []
+              + self             = false
+              + to_port          = -1
+            },
+          + {
+              + cidr_blocks      = [
+                  + "0.0.0.0/0",
+                ]
+              + description      = ""
+              + from_port        = 22
+              + ipv6_cidr_blocks = []
+              + prefix_list_ids  = []
+              + protocol         = "tcp"
+              + security_groups  = []
+              + self             = false
+              + to_port          = 22
+            },
+          + {
+              + cidr_blocks      = [
+                  + "0.0.0.0/0",
+                ]
+              + description      = ""
+              + from_port        = 5432
+              + ipv6_cidr_blocks = []
+              + prefix_list_ids  = []
+              + protocol         = "tcp"
+              + security_groups  = []
+              + self             = false
+              + to_port          = 5432
+            },
+          + {
+              + cidr_blocks      = [
+                  + "0.0.0.0/0",
+                ]
+              + description      = ""
+              + from_port        = 5444
+              + ipv6_cidr_blocks = []
+              + prefix_list_ids  = []
+              + protocol         = "tcp"
+              + security_groups  = []
+              + self             = false
+              + to_port          = 5444
+            },
+          + {
+              + cidr_blocks      = [
+                  + "0.0.0.0/0",
+                ]
+              + description      = ""
+              + from_port        = 7800
+              + ipv6_cidr_blocks = []
+              + prefix_list_ids  = []
+              + protocol         = "tcp"
+              + security_groups  = []
+              + self             = false
+              + to_port          = 7900
+            },
+        ]
+      + name                   = "edb_security_groupforsr"
+      + owner_id               = (known after apply)
+      + revoke_rules_on_delete = false
+      + vpc_id                 = "vpc-0941b595de32bcf65"
+    }
+
+  # module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] will be created
+  + resource "aws_spot_instance_request" "EDB_DB_Cluster" {
+      + ami                             = "ami-06a46da680048c8ae"
+      + arn                             = (known after apply)
+      + associate_public_ip_address     = (known after apply)
+      + availability_zone               = (known after apply)
+      + cpu_core_count                  = (known after apply)
+      + cpu_threads_per_core            = (known after apply)
+      + get_password_data               = false
+      + host_id                         = (known after apply)
+      + iam_instance_profile            = "edb-ec2-failover-role"
+      + id                              = (known after apply)
+      + instance_interruption_behaviour = "terminate"
+      + instance_state                  = (known after apply)
+      + instance_type                   = "t3.large"
+      + ipv6_address_count              = (known after apply)
+      + ipv6_addresses                  = (known after apply)
+      + key_name                        = "key-demo2"
+      + outpost_arn                     = (known after apply)
+      + password_data                   = (known after apply)
+      + placement_group                 = (known after apply)
+      + primary_network_interface_id    = (known after apply)
+      + private_dns                     = (known after apply)
+      + private_ip                      = (known after apply)
+      + public_dns                      = (known after apply)
+      + public_ip                       = (known after apply)
+      + secondary_private_ips           = (known after apply)
+      + security_groups                 = (known after apply)
+      + source_dest_check               = false
+      + spot_bid_status                 = (known after apply)
+      + spot_instance_id                = (known after apply)
+      + spot_price                      = "0.08"
+      + spot_request_state              = (known after apply)
+      + spot_type                       = "persistent"
+      + subnet_id                       = "subnet-04584544bb31f30f7"
+      + tags                            = {
+          + "Created_By" = "Terraform"
+          + "Name"       = "demo2-master"
+        }
+      + tenancy                         = (known after apply)
+      + user_data                       = "200e579c40f73a99d447b97786faad2142e3ba17"
+      + valid_from                      = (known after apply)
+      + valid_until                     = (known after apply)
+      + vpc_security_group_ids          = (known after apply)
+      + wait_for_fulfillment            = true
+
+      + ebs_block_device {
+          + delete_on_termination = (known after apply)
+          + device_name           = (known after apply)
+          + encrypted             = (known after apply)
+          + iops                  = (known after apply)
+          + kms_key_id            = (known after apply)
+          + snapshot_id           = (known after apply)
+          + volume_id             = (known after apply)
+          + volume_size           = (known after apply)
+          + volume_type           = (known after apply)
+        }
+
+      + ephemeral_block_device {
+          + device_name  = (known after apply)
+          + no_device    = (known after apply)
+          + virtual_name = (known after apply)
+        }
+
+      + metadata_options {
+          + http_endpoint               = (known after apply)
+          + http_put_response_hop_limit = (known after apply)
+          + http_tokens                 = (known after apply)
+        }
+
+      + network_interface {
+          + delete_on_termination = (known after apply)
+          + device_index          = (known after apply)
+          + network_interface_id  = (known after apply)
+        }
+
+      + root_block_device {
+          + delete_on_termination = true
+          + device_name           = (known after apply)
+          + encrypted             = (known after apply)
+          + iops                  = (known after apply)
+          + kms_key_id            = (known after apply)
+          + volume_id             = (known after apply)
+          + volume_size           = 8
+          + volume_type           = "gp2"
+        }
+    }
+
+  # module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] will be created
+  + resource "aws_spot_instance_request" "EDB_DB_Cluster" {
+      + ami                             = "ami-06a46da680048c8ae"
+      + arn                             = (known after apply)
+      + associate_public_ip_address     = (known after apply)
+      + availability_zone               = (known after apply)
+      + cpu_core_count                  = (known after apply)
+      + cpu_threads_per_core            = (known after apply)
+      + get_password_data               = false
+      + host_id                         = (known after apply)
+      + iam_instance_profile            = "edb-ec2-failover-role"
+      + id                              = (known after apply)
+      + instance_interruption_behaviour = "terminate"
+      + instance_state                  = (known after apply)
+      + instance_type                   = "t3.large"
+      + ipv6_address_count              = (known after apply)
+      + ipv6_addresses                  = (known after apply)
+      + key_name                        = "key-demo2"
+      + outpost_arn                     = (known after apply)
+      + password_data                   = (known after apply)
+      + placement_group                 = (known after apply)
+      + primary_network_interface_id    = (known after apply)
+      + private_dns                     = (known after apply)
+      + private_ip                      = (known after apply)
+      + public_dns                      = (known after apply)
+      + public_ip                       = (known after apply)
+      + secondary_private_ips           = (known after apply)
+      + security_groups                 = (known after apply)
+      + source_dest_check               = false
+      + spot_bid_status                 = (known after apply)
+      + spot_instance_id                = (known after apply)
+      + spot_price                      = "0.08"
+      + spot_request_state              = (known after apply)
+      + spot_type                       = "persistent"
+      + subnet_id                       = "subnet-09ba932d264f5b14a"
+      + tags                            = {
+          + "Created_By" = "Terraform"
+          + "Name"       = "demo2-standby1"
+        }
+      + tenancy                         = (known after apply)
+      + user_data                       = "200e579c40f73a99d447b97786faad2142e3ba17"
+      + valid_from                      = (known after apply)
+      + valid_until                     = (known after apply)
+      + vpc_security_group_ids          = (known after apply)
+      + wait_for_fulfillment            = true
+
+      + ebs_block_device {
+          + delete_on_termination = (known after apply)
+          + device_name           = (known after apply)
+          + encrypted             = (known after apply)
+          + iops                  = (known after apply)
+          + kms_key_id            = (known after apply)
+          + snapshot_id           = (known after apply)
+          + volume_id             = (known after apply)
+          + volume_size           = (known after apply)
+          + volume_type           = (known after apply)
+        }
+
+      + ephemeral_block_device {
+          + device_name  = (known after apply)
+          + no_device    = (known after apply)
+          + virtual_name = (known after apply)
+        }
+
+      + metadata_options {
+          + http_endpoint               = (known after apply)
+          + http_put_response_hop_limit = (known after apply)
+          + http_tokens                 = (known after apply)
+        }
+
+      + network_interface {
+          + delete_on_termination = (known after apply)
+          + device_index          = (known after apply)
+          + network_interface_id  = (known after apply)
+        }
+
+      + root_block_device {
+          + delete_on_termination = true
+          + device_name           = (known after apply)
+          + encrypted             = (known after apply)
+          + iops                  = (known after apply)
+          + kms_key_id            = (known after apply)
+          + volume_id             = (known after apply)
+          + volume_size           = 8
+          + volume_type           = "gp2"
+        }
+    }
+
+  # module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] will be created
+  + resource "aws_spot_instance_request" "EDB_DB_Cluster" {
+      + ami                             = "ami-06a46da680048c8ae"
+      + arn                             = (known after apply)
+      + associate_public_ip_address     = (known after apply)
+      + availability_zone               = (known after apply)
+      + cpu_core_count                  = (known after apply)
+      + cpu_threads_per_core            = (known after apply)
+      + get_password_data               = false
+      + host_id                         = (known after apply)
+      + iam_instance_profile            = "edb-ec2-failover-role"
+      + id                              = (known after apply)
+      + instance_interruption_behaviour = "terminate"
+      + instance_state                  = (known after apply)
+      + instance_type                   = "t3.large"
+      + ipv6_address_count              = (known after apply)
+      + ipv6_addresses                  = (known after apply)
+      + key_name                        = "key-demo2"
+      + outpost_arn                     = (known after apply)
+      + password_data                   = (known after apply)
+      + placement_group                 = (known after apply)
+      + primary_network_interface_id    = (known after apply)
+      + private_dns                     = (known after apply)
+      + private_ip                      = (known after apply)
+      + public_dns                      = (known after apply)
+      + public_ip                       = (known after apply)
+      + secondary_private_ips           = (known after apply)
+      + security_groups                 = (known after apply)
+      + source_dest_check               = false
+      + spot_bid_status                 = (known after apply)
+      + spot_instance_id                = (known after apply)
+      + spot_price                      = "0.08"
+      + spot_request_state              = (known after apply)
+      + spot_type                       = "persistent"
+      + subnet_id                       = "subnet-086550a8c18d8ddc0"
+      + tags                            = {
+          + "Created_By" = "Terraform"
+          + "Name"       = "demo2-standby2"
+        }
+      + tenancy                         = (known after apply)
+      + user_data                       = "200e579c40f73a99d447b97786faad2142e3ba17"
+      + valid_from                      = (known after apply)
+      + valid_until                     = (known after apply)
+      + vpc_security_group_ids          = (known after apply)
+      + wait_for_fulfillment            = true
+
+      + ebs_block_device {
+          + delete_on_termination = (known after apply)
+          + device_name           = (known after apply)
+          + encrypted             = (known after apply)
+          + iops                  = (known after apply)
+          + kms_key_id            = (known after apply)
+          + snapshot_id           = (known after apply)
+          + volume_id             = (known after apply)
+          + volume_size           = (known after apply)
+          + volume_type           = (known after apply)
+        }
+
+      + ephemeral_block_device {
+          + device_name  = (known after apply)
+          + no_device    = (known after apply)
+          + virtual_name = (known after apply)
+        }
+
+      + metadata_options {
+          + http_endpoint               = (known after apply)
+          + http_put_response_hop_limit = (known after apply)
+          + http_tokens                 = (known after apply)
+        }
+
+      + network_interface {
+          + delete_on_termination = (known after apply)
+          + device_index          = (known after apply)
+          + network_interface_id  = (known after apply)
+        }
+
+      + root_block_device {
+          + delete_on_termination = true
+          + device_name           = (known after apply)
+          + encrypted             = (known after apply)
+          + iops                  = (known after apply)
+          + kms_key_id            = (known after apply)
+          + volume_id             = (known after apply)
+          + volume_size           = 8
+          + volume_type           = "gp2"
+        }
+    }
+
+  # module.edb-db-cluster.null_resource.configuremaster will be created
+  + resource "null_resource" "configuremaster" {
+      + id       = (known after apply)
+      + triggers = (known after apply)
+    }
+
+  # module.edb-db-cluster.null_resource.configureslave1 will be created
+  + resource "null_resource" "configureslave1" {
+      + id       = (known after apply)
+      + triggers = (known after apply)
+    }
+
+  # module.edb-db-cluster.null_resource.configureslave2 will be created
+  + resource "null_resource" "configureslave2" {
+      + id       = (known after apply)
+      + triggers = (known after apply)
+    }
+
+  # module.edb-db-cluster.null_resource.removehostfile will be created
+  + resource "null_resource" "removehostfile" {
+      + id = (known after apply)
+    }
+
+Plan: 9 to add, 0 to change, 0 to destroy.
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+module.edb-db-cluster.aws_security_group.edb_sg[0]: Creating...
+module.edb-db-cluster.aws_security_group.edb_sg[0]: Creation complete after 1s [id=sg-0925db0ad7f8b96a0]
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2]: Creating...
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1]: Creating...
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0]: Creating...
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2]: Still creating... [10s elapsed]
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0]: Still creating... [10s elapsed]
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1]: Still creating... [10s elapsed]
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2]: Provisioning with 'local-exec'...
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (local-exec): Executing: ["/bin/sh" "-c" "echo '10.0.13.58 ansible_ssh_private_key_file=/home/ec2-user/postgres-deployment/key-demo2.pem' >> EDB_SR_SETUP/utilities/scripts/hosts"]
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2]: Provisioning with 'local-exec'...
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (local-exec): Executing: ["/bin/sh" "-c" "sleep 60"]
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0]: Provisioning with 'local-exec'...
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (local-exec): Executing: ["/bin/sh" "-c" "echo '10.0.11.168 ansible_ssh_private_key_file=/home/ec2-user/postgres-deployment/key-demo2.pem' >> EDB_SR_SETUP/utilities/scripts/hosts"]
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0]: Provisioning with 'local-exec'...
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (local-exec): Executing: ["/bin/sh" "-c" "sleep 60"]
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1]: Provisioning with 'local-exec'...
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (local-exec): Executing: ["/bin/sh" "-c" "echo '10.0.12.171 ansible_ssh_private_key_file=/home/ec2-user/postgres-deployment/key-demo2.pem' >> EDB_SR_SETUP/utilities/scripts/hosts"]
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1]: Provisioning with 'local-exec'...
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (local-exec): Executing: ["/bin/sh" "-c" "sleep 60"]
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2]: Still creating... [20s elapsed]
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0]: Still creating... [20s elapsed]
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1]: Still creating... [20s elapsed]
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2]: Still creating... [30s elapsed]
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0]: Still creating... [30s elapsed]
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1]: Still creating... [30s elapsed]
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2]: Still creating... [40s elapsed]
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0]: Still creating... [40s elapsed]
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1]: Still creating... [40s elapsed]
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2]: Still creating... [50s elapsed]
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0]: Still creating... [50s elapsed]
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1]: Still creating... [50s elapsed]
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2]: Still creating... [1m0s elapsed]
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0]: Still creating... [1m0s elapsed]
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1]: Still creating... [1m0s elapsed]
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2]: Still creating... [1m10s elapsed]
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0]: Still creating... [1m10s elapsed]
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1]: Still creating... [1m10s elapsed]
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2]: Provisioning with 'remote-exec'...
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec): Connecting to remote host via SSH...
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):   Host: 10.0.13.58
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):   User: centos
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):   Password: false
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):   Private key: true
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):   Certificate: false
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):   SSH Agent: false
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):   Checking Host Key: false
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0]: Provisioning with 'remote-exec'...
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec): Connecting to remote host via SSH...
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):   Host: 10.0.11.168
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):   User: centos
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):   Password: false
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):   Private key: true
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):   Certificate: false
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):   SSH Agent: false
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):   Checking Host Key: false
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1]: Provisioning with 'remote-exec'...
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec): Connecting to remote host via SSH...
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):   Host: 10.0.12.171
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):   User: centos
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):   Password: false
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):   Private key: true
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):   Certificate: false
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):   SSH Agent: false
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):   Checking Host Key: false
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec): Connecting to remote host via SSH...
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):   Host: 10.0.13.58
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):   User: centos
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):   Password: false
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):   Private key: true
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):   Certificate: false
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):   SSH Agent: false
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):   Checking Host Key: false
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec): Connecting to remote host via SSH...
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):   Host: 10.0.11.168
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):   User: centos
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):   Password: false
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):   Private key: true
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):   Certificate: false
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):   SSH Agent: false
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):   Checking Host Key: false
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec): Connecting to remote host via SSH...
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):   Host: 10.0.12.171
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):   User: centos
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):   Password: false
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):   Private key: true
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):   Certificate: false
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):   SSH Agent: false
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):   Checking Host Key: false
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec): Connecting to remote host via SSH...
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):   Host: 10.0.13.58
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):   User: centos
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):   Password: false
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):   Private key: true
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):   Certificate: false
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):   SSH Agent: false
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):   Checking Host Key: false
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec): Connecting to remote host via SSH...
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):   Host: 10.0.11.168
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):   User: centos
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):   Password: false
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):   Private key: true
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):   Certificate: false
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):   SSH Agent: false
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):   Checking Host Key: false
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec): Connecting to remote host via SSH...
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):   Host: 10.0.12.171
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):   User: centos
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):   Password: false
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):   Private key: true
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):   Certificate: false
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):   SSH Agent: false
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):   Checking Host Key: false
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec): Connecting to remote host via SSH...
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):   Host: 10.0.11.168
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):   User: centos
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):   Password: false
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):   Private key: true
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):   Certificate: false
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):   SSH Agent: false
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):   Checking Host Key: false
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec): Connecting to remote host via SSH...
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):   Host: 10.0.13.58
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):   User: centos
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):   Password: false
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):   Private key: true
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):   Certificate: false
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):   SSH Agent: false
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):   Checking Host Key: false
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec): Connecting to remote host via SSH...
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):   Host: 10.0.12.171
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):   User: centos
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):   Password: false
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):   Private key: true
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):   Certificate: false
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):   SSH Agent: false
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):   Checking Host Key: false
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2]: Still creating... [1m20s elapsed]
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0]: Still creating... [1m20s elapsed]
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1]: Still creating... [1m20s elapsed]
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec): Connecting to remote host via SSH...
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):   Host: 10.0.13.58
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):   User: centos
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):   Password: false
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):   Private key: true
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):   Certificate: false
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):   SSH Agent: false
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):   Checking Host Key: false
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec): Connected!
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec): Loaded plugins: fastestmirror
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec): Connecting to remote host via SSH...
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):   Host: 10.0.11.168
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):   User: centos
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):   Password: false
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):   Private key: true
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):   Certificate: false
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):   SSH Agent: false
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):   Checking Host Key: false
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec): Determining fastest mirrors
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec): Connected!
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec): Loaded plugins: fastestmirror
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):  * base: d36uatko69830t.cloudfront.net
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):  * extras: d36uatko69830t.cloudfront.net
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):  * updates: d36uatko69830t.cloudfront.net
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec): base             | 3.6 kB     00:00
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec): extras           | 2.9 kB     00:00
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec): updates          | 2.9 kB     00:00
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec): Determining fastest mirrors
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec): (1/4): base/7/x86_ | 153 kB   00:00
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec): (2/4): extras/7/x8 | 206 kB   00:00
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec): (3/4): updates/7/x | 4.5 MB   00:00
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec): Connecting to remote host via SSH...
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):   Host: 10.0.12.171
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):   User: centos
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):   Password: false
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):   Private key: true
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):   Certificate: false
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):   SSH Agent: false
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):   Checking Host Key: false
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec): Connected!
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2]: Still creating... [1m30s elapsed]
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0]: Still creating... [1m30s elapsed]
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1]: Still creating... [1m30s elapsed]
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec): (4/4): base/7/ 44% | 4.8 MB   --:-- ETA
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):  * base: d36uatko69830t.cloudfront.net
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):  * extras: d36uatko69830t.cloudfront.net
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):  * updates: d36uatko69830t.cloudfront.net
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec): base             | 3.6 kB     00:00
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec): extras           | 2.9 kB     00:00
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec): updates          | 2.9 kB     00:00
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec): Loaded plugins: fastestmirror
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec): (4/4): base/7/ 44% | 4.9 MB   02:55 ETA
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec): (1/4): base/7/x86_ | 153 kB   00:00
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec): Determining fastest mirrors
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec): (2/4): extras/7/x8 | 206 kB   00:00
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec): (3/4): updates/7/x | 4.5 MB   00:00
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec): (4/4): base/7/ 46% | 5.1 MB   01:36 ETA
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec): (4/4): base/7/ 44% | 4.8 MB   --:-- ETA
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec): (4/4): base/7/ 51% | 5.6 MB   00:31 ETA
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec): (4/4): base/7/ 46% | 5.1 MB   00:31 ETA
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec): (4/4): base/7/ 51% | 5.6 MB   00:18 ETA
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec): (4/4): base/7/ 59% | 6.5 MB   00:13 ETA
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec): (4/4): base/7/ 57% | 6.2 MB   00:11 ETA
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec): (4/4): base/7/ 78% | 8.5 MB   00:03 ETA
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):  * base: d36uatko69830t.cloudfront.net
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):  * extras: d36uatko69830t.cloudfront.net
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):  * updates: d36uatko69830t.cloudfront.net
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec): base             | 3.6 kB     00:00
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec): extras           | 2.9 kB     00:00
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec): updates          | 2.9 kB     00:00
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec): (4/4): base/7/ 98% |  11 MB   00:00 ETA
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec): (4/4): base/7/x86_ | 6.1 MB   00:03
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec): (4/4): base/7/ 64% | 7.0 MB   00:07 ETA
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec): (1/4): base/7/x86_ | 153 kB   00:00
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec): (2/4): extras/7/x8 | 206 kB   00:00
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec): (3/4): updates/7/x | 4.5 MB   00:00
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec): (4/4): base/7/ 72% | 7.9 MB   00:04 ETA
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec): (4/4): base/7/ 44% | 4.8 MB   --:-- ETA
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec): (4/4): base/7/ 77% | 8.5 MB   00:03 ETA
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec): (4/4): base/7/ 46% | 5.1 MB   00:26 ETA
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec): (4/4): base/7/ 81% | 8.9 MB   00:02 ETA
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec): (4/4): base/7/ 85% | 9.3 MB   00:01 ETA
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec): (4/4): base/7/ 69% | 7.6 MB   00:04 ETA
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec): (4/4): base/7/ 88% | 9.7 MB   00:01 ETA
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec): (4/4): base/7/ 70% | 7.6 MB   00:04 ETA
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec): (4/4): base/7/ 91% |  10 MB   00:01 ETA
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec): (4/4): base/7/ 84% | 9.2 MB   00:01 ETA
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec): (4/4): base/7/x86_ | 6.1 MB   00:02
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec): (4/4): base/7/ 94% |  10 MB   00:00 ETA
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec): Installed Packages
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec): Name        : python
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec): Arch        : x86_64
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec): Version     : 2.7.5
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec): Release     : 86.el7
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec): Size        : 79 k
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec): Repo        : installed
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec): Summary     : An interpreted,
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):      ...: interactive, object-oriented
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):      ...: programming language
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec): URL         : http://www.python.org/
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec): License     : Python
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec): Description : Python is an interpreted,
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):      ...: interactive, object-oriented
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):      ...: programming language often
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):      ...: compared to Tcl, Perl, Scheme
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):      ...: or Java. Python includes
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):      ...: modules, classes, exceptions,
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):      ...: very high level dynamic data
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):      ...: types and dynamic typing.
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):      ...: Python supports interfaces to
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):      ...: many system calls and
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):      ...: libraries, as well as to
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):      ...: various windowing systems
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):      ...: (X11, Motif, Tk, Mac and MFC).
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):      ...:
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):      ...: Programmers can write new
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):      ...: built-in modules for Python in
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):      ...: C or C++. Python can be used
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):      ...: as an extension language for
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):      ...: applications that need a
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):      ...: programmable interface.
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):      ...:
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):      ...: Note that documentation for
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):      ...: Python is provided in the
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):      ...: python-docs package.
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):      ...:
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):      ...: This package provides the
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):      ...: "python" executable; most of
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):      ...: the actual implementation is
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):      ...: within the "python-libs"
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):      ...: package.
+
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec): (4/4): base/7/ 97% |  11 MB   00:00 ETA
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec): Available Packages
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec): Name        : python
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec): Arch        : x86_64
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec): Version     : 2.7.5
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec): Release     : 88.el7
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec): Size        : 96 k
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec): Repo        : base/7/x86_64
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec): Summary     : An interpreted,
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):      ...: interactive, object-oriented
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):      ...: programming language
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec): URL         : http://www.python.org/
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec): License     : Python
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec): Description : Python is an interpreted,
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):      ...: interactive, object-oriented
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):      ...: programming language often
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):      ...: compared to Tcl, Perl, Scheme
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):      ...: or Java. Python includes
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):      ...: modules, classes, exceptions,
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):      ...: very high level dynamic data
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):      ...: types and dynamic typing.
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):      ...: Python supports interfaces to
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):      ...: many system calls and
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):      ...: libraries, as well as to
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):      ...: various windowing systems
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):      ...: (X11, Motif, Tk, Mac and MFC).
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):      ...:
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):      ...: Programmers can write new
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):      ...: built-in modules for Python in
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):      ...: C or C++. Python can be used
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):      ...: as an extension language for
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):      ...: applications that need a
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):      ...: programmable interface.
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):      ...:
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):      ...: Note that documentation for
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):      ...: Python is provided in the
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):      ...: python-docs package.
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):      ...:
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):      ...: This package provides the
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):      ...: "python" executable; most of
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):      ...: the actual implementation is
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):      ...: within the "python-libs"
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (remote-exec):      ...: package.
+
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec): (4/4): base/7/x86_ | 6.1 MB   00:05
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2]: Provisioning with 'local-exec'...
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (local-exec): Executing: ["/bin/sh" "-c" "ansible-playbook -i EDB_SR_SETUP/utilities/scripts/hosts -u centos --private-key '-----BEGIN RSA PRIVATE KEY-----\nMIIEowIBAAKCAQEAho1V6vtMN1VM3t1iFRN0lVbz+JASsRj1+hnlQToVuxvIZjzp\nVLpl40vVDJNPymNMAoNLdJ0O4AjBxCL0imUpXMbc1NVQaOkVmNemxvHk0FyXdAED\nEJYTWhIrsQvH6LYiOx/4IdnnjwnW03LF+KBIYPsUH8PqMK/kgAvhBSCGI69/gffX\nA1XgUQPa9EumSK5+cDC4ikHEtDBPUMCyTVho1xy9cjmscryDH7uub/W8feKCFXlH\nxW32oNwxc3QFW5tDHuctig2Lo9quGhv6xdRXDE9MrMrlImfQjUsFMxn2DwTjpZGG\nugVZo5wLbGyZ6wiY2Tkew+hY4OfE8pS0i7Q4nwIDAQABAoIBAFU3gHnxrKTC5ouk\nBLG6f7TxvFTp0pzNZUSAUB1Oj2LQxsxRuanK4Crj5UwwpHFXEFXrF8gEjN5BTY9O\nYDiit16mKEi3zVSUgvQpaNxJaZS5f8aduXYwxpLePUPFZVgyul1d8wZlfu2t2pxS\n7aV4xj595pHzwAgT7pFWdK6NmcdRNwJ+dpqr3Pii8IXXGEYyZhS+ukiRqxAl/Kcx\nXyKX5rcqRL4v4Lkb8aGd7I6HX0GgXcmrc78Lwx1ZUcM5icbIgwsuzQ9BedcBSnBa\ntS0+hpIPnRX2FVlzEj1RbX1rnwuF3XKjv5W2BpFHbmVYm3cxauJH5xtwepBDt+QU\nxDUsoVkCgYEA6asB0+ZqC2XrfjNPm4GjtxeArGgqqS8cb1wgWA4XU5dpgiKK/Ty5\n053CEolf6tsDgdYeMCvS4/4DvcSgAcQ3MHgadofo34NzSp8PFBEjMk3PRPn34TZP\nVqHTKSTxRJtvyArQ4pXq4ZoetcArcfDRGzGn2QgLDc8bT3Eo2ShmVEUCgYEAk2lU\nD9LZ6ShNplKfjTJOMgVdN0SMlBq4/vcfxhnJHuBH30sjn5HndQKqXCfKNtpwCVgy\nlKImpTcmV53ok7CjsW1GbOwiQp68FgLd8ZeNPi0ETnGkx+OuLD4BauLmAxK1Pct1\nBLeZPi7KnGeYrRHtBbh5aeFXbk6Kve1Z0i+oUZMCgYEA1yq9GB8Ib05+t0sQdyW9\nV4+w0RFqlzfmezTeI7d2C2dVpJuiWOZeR1rxppgRVvYuGJTOX5U7MO5rC4fPv1Cr\ncVpnI9aqvYcR1xj4jYXqXxv/TIjRlPSpwiBpjW2TLZXkLNSo3L0n+G4u8TXvy4/x\nPZVP9i3N3/1iLJkLAEyPTfECgYBnSF8rjxI6+JAfPrinl12OUo/TT2YnxuljSwaq\nKBrwVThGTUEyZmoDY9C1LPPTpwzknzUhStNE4vUsYmk4QYUPpX64hmIix1EFIxEa\nWpMNw0DHLXzEyNOaD/+yQjPiZ1MxbsIYggMOvH4dQ8CHUo39ehknhElb8g/nrstG\nJzoJnQKBgEQ1CVPwBIYKuauKJHGgZELRDyiwEQDpI+bhMh7+M2CsCmxF0mBq31nk\nN1BpY+dG1UCZKhTdU2aUXoTOE1vEk3ezJiZT+/4Mga6L4xqLpXnBS2dDoAPYbQUf\nWR1DDylNxbFaCCkfHmrBIzlRAWc9cHCZ3hnrHu18nlPkkML1eOp5\n-----END RSA PRIVATE KEY-----' 'EDB_SR_SETUP/utilities/scripts/installpg12.yml' --extra-vars='USER=kotaroyoshino PASS=4aSvzUhP8BdKmxvu PGDBUSER=postgres  EPASDBUSER=enterprisedb' --limit 10.0.13.58"]
+
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (local-exec): PLAY [all] *********************************************************************
+
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (local-exec): TASK [Gathering Facts] *********************************************************
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec): Installed Packages
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec): Name        : python
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec): Arch        : x86_64
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec): Version     : 2.7.5
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec): Release     : 86.el7
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec): Size        : 79 k
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec): Repo        : installed
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec): Summary     : An interpreted,
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):      ...: interactive, object-oriented
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):      ...: programming language
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec): URL         : http://www.python.org/
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec): License     : Python
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec): Description : Python is an interpreted,
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):      ...: interactive, object-oriented
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):      ...: programming language often
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):      ...: compared to Tcl, Perl, Scheme
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):      ...: or Java. Python includes
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):      ...: modules, classes, exceptions,
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):      ...: very high level dynamic data
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):      ...: types and dynamic typing.
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):      ...: Python supports interfaces to
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):      ...: many system calls and
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):      ...: libraries, as well as to
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):      ...: various windowing systems
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):      ...: (X11, Motif, Tk, Mac and MFC).
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):      ...:
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):      ...: Programmers can write new
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):      ...: built-in modules for Python in
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):      ...: C or C++. Python can be used
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):      ...: as an extension language for
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):      ...: applications that need a
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):      ...: programmable interface.
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):      ...:
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):      ...: Note that documentation for
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):      ...: Python is provided in the
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):      ...: python-docs package.
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):      ...:
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):      ...: This package provides the
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):      ...: "python" executable; most of
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):      ...: the actual implementation is
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):      ...: within the "python-libs"
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):      ...: package.
+
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec): Available Packages
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec): Name        : python
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec): Arch        : x86_64
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec): Version     : 2.7.5
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec): Release     : 88.el7
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec): Size        : 96 k
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec): Repo        : base/7/x86_64
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec): Summary     : An interpreted,
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):      ...: interactive, object-oriented
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):      ...: programming language
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec): URL         : http://www.python.org/
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec): License     : Python
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec): Description : Python is an interpreted,
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):      ...: interactive, object-oriented
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):      ...: programming language often
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):      ...: compared to Tcl, Perl, Scheme
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):      ...: or Java. Python includes
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):      ...: modules, classes, exceptions,
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):      ...: very high level dynamic data
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):      ...: types and dynamic typing.
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):      ...: Python supports interfaces to
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):      ...: many system calls and
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):      ...: libraries, as well as to
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):      ...: various windowing systems
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):      ...: (X11, Motif, Tk, Mac and MFC).
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):      ...:
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):      ...: Programmers can write new
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):      ...: built-in modules for Python in
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):      ...: C or C++. Python can be used
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):      ...: as an extension language for
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):      ...: applications that need a
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):      ...: programmable interface.
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):      ...:
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):      ...: Note that documentation for
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):      ...: Python is provided in the
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):      ...: python-docs package.
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):      ...:
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):      ...: This package provides the
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):      ...: "python" executable; most of
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):      ...: the actual implementation is
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):      ...: within the "python-libs"
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (remote-exec):      ...: package.
+
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1]: Provisioning with 'local-exec'...
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (local-exec): Executing: ["/bin/sh" "-c" "ansible-playbook -i EDB_SR_SETUP/utilities/scripts/hosts -u centos --private-key '-----BEGIN RSA PRIVATE KEY-----\nMIIEowIBAAKCAQEAho1V6vtMN1VM3t1iFRN0lVbz+JASsRj1+hnlQToVuxvIZjzp\nVLpl40vVDJNPymNMAoNLdJ0O4AjBxCL0imUpXMbc1NVQaOkVmNemxvHk0FyXdAED\nEJYTWhIrsQvH6LYiOx/4IdnnjwnW03LF+KBIYPsUH8PqMK/kgAvhBSCGI69/gffX\nA1XgUQPa9EumSK5+cDC4ikHEtDBPUMCyTVho1xy9cjmscryDH7uub/W8feKCFXlH\nxW32oNwxc3QFW5tDHuctig2Lo9quGhv6xdRXDE9MrMrlImfQjUsFMxn2DwTjpZGG\nugVZo5wLbGyZ6wiY2Tkew+hY4OfE8pS0i7Q4nwIDAQABAoIBAFU3gHnxrKTC5ouk\nBLG6f7TxvFTp0pzNZUSAUB1Oj2LQxsxRuanK4Crj5UwwpHFXEFXrF8gEjN5BTY9O\nYDiit16mKEi3zVSUgvQpaNxJaZS5f8aduXYwxpLePUPFZVgyul1d8wZlfu2t2pxS\n7aV4xj595pHzwAgT7pFWdK6NmcdRNwJ+dpqr3Pii8IXXGEYyZhS+ukiRqxAl/Kcx\nXyKX5rcqRL4v4Lkb8aGd7I6HX0GgXcmrc78Lwx1ZUcM5icbIgwsuzQ9BedcBSnBa\ntS0+hpIPnRX2FVlzEj1RbX1rnwuF3XKjv5W2BpFHbmVYm3cxauJH5xtwepBDt+QU\nxDUsoVkCgYEA6asB0+ZqC2XrfjNPm4GjtxeArGgqqS8cb1wgWA4XU5dpgiKK/Ty5\n053CEolf6tsDgdYeMCvS4/4DvcSgAcQ3MHgadofo34NzSp8PFBEjMk3PRPn34TZP\nVqHTKSTxRJtvyArQ4pXq4ZoetcArcfDRGzGn2QgLDc8bT3Eo2ShmVEUCgYEAk2lU\nD9LZ6ShNplKfjTJOMgVdN0SMlBq4/vcfxhnJHuBH30sjn5HndQKqXCfKNtpwCVgy\nlKImpTcmV53ok7CjsW1GbOwiQp68FgLd8ZeNPi0ETnGkx+OuLD4BauLmAxK1Pct1\nBLeZPi7KnGeYrRHtBbh5aeFXbk6Kve1Z0i+oUZMCgYEA1yq9GB8Ib05+t0sQdyW9\nV4+w0RFqlzfmezTeI7d2C2dVpJuiWOZeR1rxppgRVvYuGJTOX5U7MO5rC4fPv1Cr\ncVpnI9aqvYcR1xj4jYXqXxv/TIjRlPSpwiBpjW2TLZXkLNSo3L0n+G4u8TXvy4/x\nPZVP9i3N3/1iLJkLAEyPTfECgYBnSF8rjxI6+JAfPrinl12OUo/TT2YnxuljSwaq\nKBrwVThGTUEyZmoDY9C1LPPTpwzknzUhStNE4vUsYmk4QYUPpX64hmIix1EFIxEa\nWpMNw0DHLXzEyNOaD/+yQjPiZ1MxbsIYggMOvH4dQ8CHUo39ehknhElb8g/nrstG\nJzoJnQKBgEQ1CVPwBIYKuauKJHGgZELRDyiwEQDpI+bhMh7+M2CsCmxF0mBq31nk\nN1BpY+dG1UCZKhTdU2aUXoTOE1vEk3ezJiZT+/4Mga6L4xqLpXnBS2dDoAPYbQUf\nWR1DDylNxbFaCCkfHmrBIzlRAWc9cHCZ3hnrHu18nlPkkML1eOp5\n-----END RSA PRIVATE KEY-----' 'EDB_SR_SETUP/utilities/scripts/installpg12.yml' --extra-vars='USER=kotaroyoshino PASS=4aSvzUhP8BdKmxvu PGDBUSER=postgres  EPASDBUSER=enterprisedb' --limit 10.0.12.171"]
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (local-exec): ok: [10.0.13.58]
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec): Installed Packages
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec): Name        : python
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec): Arch        : x86_64
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec): Version     : 2.7.5
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec): Release     : 86.el7
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec): Size        : 79 k
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec): Repo        : installed
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec): Summary     : An interpreted,
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):      ...: interactive, object-oriented
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):      ...: programming language
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec): URL         : http://www.python.org/
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec): License     : Python
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec): Description : Python is an interpreted,
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):      ...: interactive, object-oriented
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):      ...: programming language often
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):      ...: compared to Tcl, Perl, Scheme
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):      ...: or Java. Python includes
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):      ...: modules, classes, exceptions,
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):      ...: very high level dynamic data
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):      ...: types and dynamic typing.
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):      ...: Python supports interfaces to
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):      ...: many system calls and
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):      ...: libraries, as well as to
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):      ...: various windowing systems
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):      ...: (X11, Motif, Tk, Mac and MFC).
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):      ...:
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):      ...: Programmers can write new
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):      ...: built-in modules for Python in
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):      ...: C or C++. Python can be used
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):      ...: as an extension language for
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):      ...: applications that need a
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):      ...: programmable interface.
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):      ...:
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):      ...: Note that documentation for
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):      ...: Python is provided in the
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):      ...: python-docs package.
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):      ...:
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):      ...: This package provides the
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):      ...: "python" executable; most of
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):      ...: the actual implementation is
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):      ...: within the "python-libs"
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):      ...: package.
+
+
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (local-exec): TASK [Add pg repo] *************************************************************
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec): Available Packages
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec): Name        : python
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec): Arch        : x86_64
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec): Version     : 2.7.5
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec): Release     : 88.el7
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec): Size        : 96 k
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec): Repo        : base/7/x86_64
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec): Summary     : An interpreted,
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):      ...: interactive, object-oriented
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):      ...: programming language
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec): URL         : http://www.python.org/
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec): License     : Python
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec): Description : Python is an interpreted,
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):      ...: interactive, object-oriented
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):      ...: programming language often
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):      ...: compared to Tcl, Perl, Scheme
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):      ...: or Java. Python includes
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):      ...: modules, classes, exceptions,
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):      ...: very high level dynamic data
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):      ...: types and dynamic typing.
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):      ...: Python supports interfaces to
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):      ...: many system calls and
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):      ...: libraries, as well as to
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):      ...: various windowing systems
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):      ...: (X11, Motif, Tk, Mac and MFC).
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):      ...:
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):      ...: Programmers can write new
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):      ...: built-in modules for Python in
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):      ...: C or C++. Python can be used
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):      ...: as an extension language for
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):      ...: applications that need a
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):      ...: programmable interface.
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):      ...:
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):      ...: Note that documentation for
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):      ...: Python is provided in the
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):      ...: python-docs package.
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):      ...:
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):      ...: This package provides the
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):      ...: "python" executable; most of
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):      ...: the actual implementation is
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):      ...: within the "python-libs"
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (remote-exec):      ...: package.
+
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0]: Provisioning with 'local-exec'...
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (local-exec): Executing: ["/bin/sh" "-c" "ansible-playbook -i EDB_SR_SETUP/utilities/scripts/hosts -u centos --private-key '-----BEGIN RSA PRIVATE KEY-----\nMIIEowIBAAKCAQEAho1V6vtMN1VM3t1iFRN0lVbz+JASsRj1+hnlQToVuxvIZjzp\nVLpl40vVDJNPymNMAoNLdJ0O4AjBxCL0imUpXMbc1NVQaOkVmNemxvHk0FyXdAED\nEJYTWhIrsQvH6LYiOx/4IdnnjwnW03LF+KBIYPsUH8PqMK/kgAvhBSCGI69/gffX\nA1XgUQPa9EumSK5+cDC4ikHEtDBPUMCyTVho1xy9cjmscryDH7uub/W8feKCFXlH\nxW32oNwxc3QFW5tDHuctig2Lo9quGhv6xdRXDE9MrMrlImfQjUsFMxn2DwTjpZGG\nugVZo5wLbGyZ6wiY2Tkew+hY4OfE8pS0i7Q4nwIDAQABAoIBAFU3gHnxrKTC5ouk\nBLG6f7TxvFTp0pzNZUSAUB1Oj2LQxsxRuanK4Crj5UwwpHFXEFXrF8gEjN5BTY9O\nYDiit16mKEi3zVSUgvQpaNxJaZS5f8aduXYwxpLePUPFZVgyul1d8wZlfu2t2pxS\n7aV4xj595pHzwAgT7pFWdK6NmcdRNwJ+dpqr3Pii8IXXGEYyZhS+ukiRqxAl/Kcx\nXyKX5rcqRL4v4Lkb8aGd7I6HX0GgXcmrc78Lwx1ZUcM5icbIgwsuzQ9BedcBSnBa\ntS0+hpIPnRX2FVlzEj1RbX1rnwuF3XKjv5W2BpFHbmVYm3cxauJH5xtwepBDt+QU\nxDUsoVkCgYEA6asB0+ZqC2XrfjNPm4GjtxeArGgqqS8cb1wgWA4XU5dpgiKK/Ty5\n053CEolf6tsDgdYeMCvS4/4DvcSgAcQ3MHgadofo34NzSp8PFBEjMk3PRPn34TZP\nVqHTKSTxRJtvyArQ4pXq4ZoetcArcfDRGzGn2QgLDc8bT3Eo2ShmVEUCgYEAk2lU\nD9LZ6ShNplKfjTJOMgVdN0SMlBq4/vcfxhnJHuBH30sjn5HndQKqXCfKNtpwCVgy\nlKImpTcmV53ok7CjsW1GbOwiQp68FgLd8ZeNPi0ETnGkx+OuLD4BauLmAxK1Pct1\nBLeZPi7KnGeYrRHtBbh5aeFXbk6Kve1Z0i+oUZMCgYEA1yq9GB8Ib05+t0sQdyW9\nV4+w0RFqlzfmezTeI7d2C2dVpJuiWOZeR1rxppgRVvYuGJTOX5U7MO5rC4fPv1Cr\ncVpnI9aqvYcR1xj4jYXqXxv/TIjRlPSpwiBpjW2TLZXkLNSo3L0n+G4u8TXvy4/x\nPZVP9i3N3/1iLJkLAEyPTfECgYBnSF8rjxI6+JAfPrinl12OUo/TT2YnxuljSwaq\nKBrwVThGTUEyZmoDY9C1LPPTpwzknzUhStNE4vUsYmk4QYUPpX64hmIix1EFIxEa\nWpMNw0DHLXzEyNOaD/+yQjPiZ1MxbsIYggMOvH4dQ8CHUo39ehknhElb8g/nrstG\nJzoJnQKBgEQ1CVPwBIYKuauKJHGgZELRDyiwEQDpI+bhMh7+M2CsCmxF0mBq31nk\nN1BpY+dG1UCZKhTdU2aUXoTOE1vEk3ezJiZT+/4Mga6L4xqLpXnBS2dDoAPYbQUf\nWR1DDylNxbFaCCkfHmrBIzlRAWc9cHCZ3hnrHu18nlPkkML1eOp5\n-----END RSA PRIVATE KEY-----' 'EDB_SR_SETUP/utilities/scripts/installpg12.yml' --extra-vars='USER=kotaroyoshino PASS=4aSvzUhP8BdKmxvu PGDBUSER=postgres  EPASDBUSER=enterprisedb' --limit 10.0.11.168"]
+
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (local-exec): PLAY [all] *********************************************************************
+
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (local-exec): TASK [Gathering Facts] *********************************************************
+
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (local-exec): PLAY [all] *********************************************************************
+
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (local-exec): TASK [Gathering Facts] *********************************************************
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2]: Still creating... [1m40s elapsed]
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0]: Still creating... [1m40s elapsed]
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1]: Still creating... [1m40s elapsed]
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (local-exec): ok: [10.0.12.171]
+
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (local-exec): TASK [Add pg repo] *************************************************************
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (local-exec): ok: [10.0.11.168]
+
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (local-exec): TASK [Add pg repo] *************************************************************
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (local-exec): changed: [10.0.13.58]
+
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (local-exec): TASK [Disable the SELINUX] *****************************************************
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (local-exec): changed: [10.0.13.58]
+
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (local-exec): TASK [Install postgres 12 server and dependant package] ************************
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (local-exec): changed: [10.0.12.171]
+
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (local-exec): TASK [Disable the SELINUX] *****************************************************
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (local-exec): changed: [10.0.12.171]
+
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (local-exec): TASK [Install postgres 12 server and dependant package] ************************
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (local-exec): changed: [10.0.11.168]
+
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (local-exec): TASK [Disable the SELINUX] *****************************************************
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (local-exec): changed: [10.0.11.168]
+
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (local-exec): TASK [Install postgres 12 server and dependant package] ************************
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2]: Still creating... [1m50s elapsed]
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0]: Still creating... [1m50s elapsed]
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1]: Still creating... [1m50s elapsed]
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2]: Still creating... [2m0s elapsed]
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0]: Still creating... [2m0s elapsed]
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1]: Still creating... [2m0s elapsed]
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (local-exec): changed: [10.0.13.58]
+
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (local-exec): TASK [Install python pip] ******************************************************
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2]: Still creating... [2m10s elapsed]
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0]: Still creating... [2m10s elapsed]
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1]: Still creating... [2m10s elapsed]
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (local-exec): changed: [10.0.12.171]
+
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (local-exec): TASK [Install python pip] ******************************************************
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (local-exec): changed: [10.0.11.168]
+
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (local-exec): TASK [Install python pip] ******************************************************
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2]: Still creating... [2m20s elapsed]
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0]: Still creating... [2m20s elapsed]
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1]: Still creating... [2m20s elapsed]
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (local-exec): changed: [10.0.13.58]
+
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (local-exec): TASK [Configure postgres 12] ***************************************************
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (local-exec): skipping: [10.0.13.58]
+
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (local-exec): TASK [Configure postgres 12] ***************************************************
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (local-exec): changed: [10.0.12.171]
+
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (local-exec): TASK [Configure postgres 12] ***************************************************
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (local-exec): skipping: [10.0.12.171]
+
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (local-exec): TASK [Configure postgres 12] ***************************************************
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (local-exec): changed: [10.0.11.168]
+
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (local-exec): TASK [Configure postgres 12] ***************************************************
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (local-exec): TASK [Configure postgres 12] ***************************************************
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2]: Still creating... [2m30s elapsed]
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0]: Still creating... [2m30s elapsed]
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1]: Still creating... [2m30s elapsed]
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (local-exec): changed: [10.0.12.171]
+
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (local-exec): TASK [Start DB Service] ********************************************************
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (local-exec): changed: [10.0.13.58]
+
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (local-exec): TASK [Start DB Service] ********************************************************
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (local-exec): changed: [10.0.12.171]
+
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (local-exec): PLAY RECAP *********************************************************************
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1] (local-exec): 10.0.12.171                : ok=7    changed=6    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
+
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[1]: Creation complete after 2m35s [id=sir-hv888tth]
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (local-exec): changed: [10.0.13.58]
+
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (local-exec): PLAY RECAP *********************************************************************
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2] (local-exec): 10.0.13.58                 : ok=7    changed=6    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
+
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[2]: Creation complete after 2m35s [id=sir-hexrbfgg]
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (local-exec): changed: [10.0.11.168]
+
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (local-exec): TASK [Start DB Service] ********************************************************
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (local-exec): changed: [10.0.11.168]
+
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (local-exec): PLAY RECAP *********************************************************************
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0] (local-exec): 10.0.11.168                : ok=7    changed=6    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
+
+module.edb-db-cluster.aws_spot_instance_request.EDB_DB_Cluster[0]: Creation complete after 2m37s [id=sir-hyxradbh]
+module.edb-db-cluster.null_resource.configuremaster: Creating...
+module.edb-db-cluster.aws_route.vip: Creating...
+module.edb-db-cluster.null_resource.configuremaster: Provisioning with 'local-exec'...
+module.edb-db-cluster.null_resource.configuremaster (local-exec): Executing: ["/bin/sh" "-c" "ansible-playbook -i EDB_SR_SETUP/utilities/scripts/hosts -u centos --private-key '-----BEGIN RSA PRIVATE KEY-----\nMIIEowIBAAKCAQEAho1V6vtMN1VM3t1iFRN0lVbz+JASsRj1+hnlQToVuxvIZjzp\nVLpl40vVDJNPymNMAoNLdJ0O4AjBxCL0imUpXMbc1NVQaOkVmNemxvHk0FyXdAED\nEJYTWhIrsQvH6LYiOx/4IdnnjwnW03LF+KBIYPsUH8PqMK/kgAvhBSCGI69/gffX\nA1XgUQPa9EumSK5+cDC4ikHEtDBPUMCyTVho1xy9cjmscryDH7uub/W8feKCFXlH\nxW32oNwxc3QFW5tDHuctig2Lo9quGhv6xdRXDE9MrMrlImfQjUsFMxn2DwTjpZGG\nugVZo5wLbGyZ6wiY2Tkew+hY4OfE8pS0i7Q4nwIDAQABAoIBAFU3gHnxrKTC5ouk\nBLG6f7TxvFTp0pzNZUSAUB1Oj2LQxsxRuanK4Crj5UwwpHFXEFXrF8gEjN5BTY9O\nYDiit16mKEi3zVSUgvQpaNxJaZS5f8aduXYwxpLePUPFZVgyul1d8wZlfu2t2pxS\n7aV4xj595pHzwAgT7pFWdK6NmcdRNwJ+dpqr3Pii8IXXGEYyZhS+ukiRqxAl/Kcx\nXyKX5rcqRL4v4Lkb8aGd7I6HX0GgXcmrc78Lwx1ZUcM5icbIgwsuzQ9BedcBSnBa\ntS0+hpIPnRX2FVlzEj1RbX1rnwuF3XKjv5W2BpFHbmVYm3cxauJH5xtwepBDt+QU\nxDUsoVkCgYEA6asB0+ZqC2XrfjNPm4GjtxeArGgqqS8cb1wgWA4XU5dpgiKK/Ty5\n053CEolf6tsDgdYeMCvS4/4DvcSgAcQ3MHgadofo34NzSp8PFBEjMk3PRPn34TZP\nVqHTKSTxRJtvyArQ4pXq4ZoetcArcfDRGzGn2QgLDc8bT3Eo2ShmVEUCgYEAk2lU\nD9LZ6ShNplKfjTJOMgVdN0SMlBq4/vcfxhnJHuBH30sjn5HndQKqXCfKNtpwCVgy\nlKImpTcmV53ok7CjsW1GbOwiQp68FgLd8ZeNPi0ETnGkx+OuLD4BauLmAxK1Pct1\nBLeZPi7KnGeYrRHtBbh5aeFXbk6Kve1Z0i+oUZMCgYEA1yq9GB8Ib05+t0sQdyW9\nV4+w0RFqlzfmezTeI7d2C2dVpJuiWOZeR1rxppgRVvYuGJTOX5U7MO5rC4fPv1Cr\ncVpnI9aqvYcR1xj4jYXqXxv/TIjRlPSpwiBpjW2TLZXkLNSo3L0n+G4u8TXvy4/x\nPZVP9i3N3/1iLJkLAEyPTfECgYBnSF8rjxI6+JAfPrinl12OUo/TT2YnxuljSwaq\nKBrwVThGTUEyZmoDY9C1LPPTpwzknzUhStNE4vUsYmk4QYUPpX64hmIix1EFIxEa\nWpMNw0DHLXzEyNOaD/+yQjPiZ1MxbsIYggMOvH4dQ8CHUo39ehknhElb8g/nrstG\nJzoJnQKBgEQ1CVPwBIYKuauKJHGgZELRDyiwEQDpI+bhMh7+M2CsCmxF0mBq31nk\nN1BpY+dG1UCZKhTdU2aUXoTOE1vEk3ezJiZT+/4Mga6L4xqLpXnBS2dDoAPYbQUf\nWR1DDylNxbFaCCkfHmrBIzlRAWc9cHCZ3hnrHu18nlPkkML1eOp5\n-----END RSA PRIVATE KEY-----' 'EDB_SR_SETUP/utilities/scripts/configuremaster.yml' --extra-vars='ip1=10.0.12.171 ip2=10.0.13.58 ip3=10.0.11.168 REPLICATION_USER_PASSWORD=rep-password DB_ENGINE=pg12 PGDBUSER=postgres  EPASDBUSER=enterprisedb REPLICATION_TYPE= DBPASSWORD=postgres S3BUCKET=edb-data-webinar-202009-demo/demo2' --limit 10.0.11.168"]
+module.edb-db-cluster.aws_route.vip: Creation complete after 1s [id=r-rtb-06bfed7eedf87b7322467511607]
+
+module.edb-db-cluster.null_resource.configuremaster (local-exec): PLAY [all] *********************************************************************
+
+module.edb-db-cluster.null_resource.configuremaster (local-exec): TASK [Gathering Facts] *********************************************************
+module.edb-db-cluster.null_resource.configuremaster (local-exec): ok: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configuremaster (local-exec): TASK [Add entry in pg_hba file] ************************************************
+module.edb-db-cluster.null_resource.configuremaster (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configuremaster (local-exec): TASK [Change parameter in postgresql file] *************************************
+module.edb-db-cluster.null_resource.configuremaster (local-exec): skipping: [10.0.11.168] => (item={u'To': u'wal_level = replica', u'From': u'#wal_level = replica'})
+module.edb-db-cluster.null_resource.configuremaster (local-exec): skipping: [10.0.11.168] => (item={u'To': u'max_wal_senders = 5', u'From': u'#max_wal_senders = 10'})
+module.edb-db-cluster.null_resource.configuremaster (local-exec): skipping: [10.0.11.168] => (item={u'To': u'max_replication_slots = 10', u'From': u'#max_replication_slots = 10'})
+module.edb-db-cluster.null_resource.configuremaster (local-exec): skipping: [10.0.11.168] => (item={u'To': u'wal_keep_segments = 500', u'From': u'#wal_keep_segments = 0'})
+module.edb-db-cluster.null_resource.configuremaster (local-exec): skipping: [10.0.11.168] => (item={u'To': u'hot_standby = on', u'From': u'#hot_standby = on'})
+module.edb-db-cluster.null_resource.configuremaster (local-exec): skipping: [10.0.11.168] => (item={u'To': u'hot_standby_feedback = on', u'From': u'#hot_standby_feedback = off'})
+module.edb-db-cluster.null_resource.configuremaster (local-exec): skipping: [10.0.11.168] => (item={u'To': u'max_logical_replication_workers = 6', u'From': u'#max_logical_replication_workers = 4'})
+module.edb-db-cluster.null_resource.configuremaster (local-exec): skipping: [10.0.11.168] => (item={u'To': u'max_sync_workers_per_subscription = 2', u'From': u'#max_sync_workers_per_subscription = 2'})
+module.edb-db-cluster.null_resource.configuremaster (local-exec): skipping: [10.0.11.168] => (item={u'To': u"listen_addresses = '*'", u'From': u"#listen_addresses = 'localhost'"})
+module.edb-db-cluster.null_resource.configuremaster (local-exec): skipping: [10.0.11.168] => (item={u'To': u'max_connections = 200', u'From': u'max_connections = 100'})
+module.edb-db-cluster.null_resource.configuremaster (local-exec): skipping: [10.0.11.168] => (item={u'To': u'archive_mode = on', u'From': u'#archive_mode = off'})
+module.edb-db-cluster.null_resource.configuremaster (local-exec): skipping: [10.0.11.168] => (item={u'To': u"archive_command = 'aws s3 cp %p s3://edb-data-webinar-202009-demo/demo2/%f'", u'From': u"#archive_command = ''"})
+
+module.edb-db-cluster.null_resource.configuremaster (local-exec): TASK [Change synchronous_commit setting if replication type is synchronous] ****
+module.edb-db-cluster.null_resource.configuremaster (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configuremaster (local-exec): TASK [Restart service] *********************************************************
+module.edb-db-cluster.null_resource.configuremaster (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configuremaster (local-exec): TASK [Create replication role] *************************************************
+module.edb-db-cluster.null_resource.configuremaster (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configuremaster (local-exec): TASK [Add entry in pg_hba file] ************************************************
+module.edb-db-cluster.null_resource.configuremaster (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configuremaster (local-exec): TASK [Change parameter in postgresql file] *************************************
+module.edb-db-cluster.null_resource.configuremaster (local-exec): skipping: [10.0.11.168] => (item={u'To': u'wal_level = replica', u'From': u'#wal_level = replica'})
+module.edb-db-cluster.null_resource.configuremaster (local-exec): skipping: [10.0.11.168] => (item={u'To': u'max_wal_senders = 5', u'From': u'#max_wal_senders = 10'})
+module.edb-db-cluster.null_resource.configuremaster (local-exec): skipping: [10.0.11.168] => (item={u'To': u'max_replication_slots = 10', u'From': u'#max_replication_slots = 10'})
+module.edb-db-cluster.null_resource.configuremaster (local-exec): skipping: [10.0.11.168] => (item={u'To': u'wal_keep_segments = 500', u'From': u'#wal_keep_segments = 0'})
+module.edb-db-cluster.null_resource.configuremaster (local-exec): skipping: [10.0.11.168] => (item={u'To': u'hot_standby = on', u'From': u'#hot_standby = on'})
+module.edb-db-cluster.null_resource.configuremaster (local-exec): skipping: [10.0.11.168] => (item={u'To': u'hot_standby_feedback = on', u'From': u'#hot_standby_feedback = off'})
+module.edb-db-cluster.null_resource.configuremaster (local-exec): skipping: [10.0.11.168] => (item={u'To': u'max_logical_replication_workers = 6', u'From': u'#max_logical_replication_workers = 4'})
+module.edb-db-cluster.null_resource.configuremaster (local-exec): skipping: [10.0.11.168] => (item={u'To': u'max_sync_workers_per_subscription = 2', u'From': u'#max_sync_workers_per_subscription = 2'})
+module.edb-db-cluster.null_resource.configuremaster (local-exec): skipping: [10.0.11.168] => (item={u'To': u"listen_addresses = '*'", u'From': u"#listen_addresses = 'localhost'"})
+module.edb-db-cluster.null_resource.configuremaster (local-exec): skipping: [10.0.11.168] => (item={u'To': u'max_connections = 200', u'From': u'max_connections = 100'})
+module.edb-db-cluster.null_resource.configuremaster (local-exec): skipping: [10.0.11.168] => (item={u'To': u'archive_mode = on', u'From': u'#archive_mode = off'})
+module.edb-db-cluster.null_resource.configuremaster (local-exec): skipping: [10.0.11.168] => (item={u'To': u"archive_command = 'aws s3 cp %p s3://edb-data-webinar-202009-demo/demo2/%f'", u'From': u"#archive_command = ''"})
+
+module.edb-db-cluster.null_resource.configuremaster (local-exec): TASK [Change synchronous_commit setting if replication type is synchronous] ****
+module.edb-db-cluster.null_resource.configuremaster (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configuremaster (local-exec): TASK [Restart DB service] ******************************************************
+module.edb-db-cluster.null_resource.configuremaster (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configuremaster (local-exec): TASK [Create replication role] *************************************************
+module.edb-db-cluster.null_resource.configuremaster (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configuremaster (local-exec): TASK [Add entry in pg_hba file] ************************************************
+module.edb-db-cluster.null_resource.configuremaster (local-exec): changed: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configuremaster (local-exec): TASK [Change parameter in postgresql file] *************************************
+module.edb-db-cluster.null_resource.configuremaster (local-exec): changed: [10.0.11.168] => (item={u'To': u'wal_level = replica', u'From': u'#wal_level = replica'})
+module.edb-db-cluster.null_resource.configuremaster (local-exec): changed: [10.0.11.168] => (item={u'To': u'max_wal_senders = 5', u'From': u'#max_wal_senders = 10'})
+module.edb-db-cluster.null_resource.configuremaster (local-exec): changed: [10.0.11.168] => (item={u'To': u'max_replication_slots = 10', u'From': u'#max_replication_slots = 10'})
+module.edb-db-cluster.null_resource.configuremaster (local-exec): changed: [10.0.11.168] => (item={u'To': u'wal_keep_segments = 500', u'From': u'#wal_keep_segments = 0'})
+module.edb-db-cluster.null_resource.configuremaster (local-exec): changed: [10.0.11.168] => (item={u'To': u'hot_standby = on', u'From': u'#hot_standby = on'})
+module.edb-db-cluster.null_resource.configuremaster (local-exec): changed: [10.0.11.168] => (item={u'To': u'hot_standby_feedback = on', u'From': u'#hot_standby_feedback = off'})
+module.edb-db-cluster.null_resource.configuremaster (local-exec): changed: [10.0.11.168] => (item={u'To': u'max_logical_replication_workers = 6', u'From': u'#max_logical_replication_workers = 4'})
+module.edb-db-cluster.null_resource.configuremaster (local-exec): changed: [10.0.11.168] => (item={u'To': u'max_sync_workers_per_subscription = 2', u'From': u'#max_sync_workers_per_subscription = 2'})
+module.edb-db-cluster.null_resource.configuremaster (local-exec): changed: [10.0.11.168] => (item={u'To': u"listen_addresses = '*'", u'From': u"#listen_addresses = 'localhost'"})
+module.edb-db-cluster.null_resource.configuremaster (local-exec): changed: [10.0.11.168] => (item={u'To': u'max_connections = 1000', u'From': u'max_connections = 100'})
+module.edb-db-cluster.null_resource.configuremaster (local-exec): changed: [10.0.11.168] => (item={u'To': u'archive_mode = on', u'From': u'#archive_mode = off'})
+module.edb-db-cluster.null_resource.configuremaster (local-exec): changed: [10.0.11.168] => (item={u'To': u"archive_command = 'aws s3 cp %p s3://edb-data-webinar-202009-demo/demo2/%f'", u'From': u"#archive_command = ''"})
+module.edb-db-cluster.null_resource.configuremaster (local-exec): changed: [10.0.11.168] => (item={u'To': u'shared_buffers = 2GB', u'From': u'shared_buffers = 128MB'})
+module.edb-db-cluster.null_resource.configuremaster (local-exec): changed: [10.0.11.168] => (item={u'To': u'maintenance_work_mem = 250MB', u'From': u'#maintenance_work_mem = 64MB'})
+module.edb-db-cluster.null_resource.configuremaster (local-exec): changed: [10.0.11.168] => (item={u'To': u'work_mem = 16MB', u'From': u'#work_mem = 4MB'})
+module.edb-db-cluster.null_resource.configuremaster (local-exec): changed: [10.0.11.168] => (item={u'To': u'effective_io_concurrency = 50', u'From': u'#effective_io_concurrency = 1'})
+module.edb-db-cluster.null_resource.configuremaster (local-exec): changed: [10.0.11.168] => (item={u'To': u'max_wal_size = 8GB', u'From': u'max_wal_size = 1GB'})
+module.edb-db-cluster.null_resource.configuremaster (local-exec): changed: [10.0.11.168] => (item={u'To': u'min_wal_size = 2GB', u'From': u'min_wal_size = 80MB'})
+module.edb-db-cluster.null_resource.configuremaster (local-exec): changed: [10.0.11.168] => (item={u'To': u'checkpoint_completion_target = 0.9', u'From': u'#checkpoint_completion_target = 0.5'})
+
+module.edb-db-cluster.null_resource.configuremaster (local-exec): TASK [Change synchronous_commit setting if replication type is synchronous] ****
+module.edb-db-cluster.null_resource.configuremaster (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configuremaster (local-exec): TASK [Restart service] *********************************************************
+module.edb-db-cluster.null_resource.configuremaster (local-exec): changed: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configuremaster (local-exec): TASK [Create replication role] *************************************************
+module.edb-db-cluster.null_resource.configuremaster (local-exec): changed: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configuremaster (local-exec): TASK [Add entry in pg_hba file] ************************************************
+module.edb-db-cluster.null_resource.configuremaster (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configuremaster (local-exec): TASK [Add entry in postgresql file] ********************************************
+module.edb-db-cluster.null_resource.configuremaster (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configuremaster (local-exec): TASK [change max connection setting] *******************************************
+module.edb-db-cluster.null_resource.configuremaster (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configuremaster (local-exec): TASK [Change synchronous_commit setting if replication type is synchronous] ****
+module.edb-db-cluster.null_resource.configuremaster (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configuremaster (local-exec): TASK [Restart service] *********************************************************
+module.edb-db-cluster.null_resource.configuremaster (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configuremaster (local-exec): TASK [Create replication role] *************************************************
+module.edb-db-cluster.null_resource.configuremaster (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configuremaster (local-exec): TASK [Add entry in pg_hba file] ************************************************
+module.edb-db-cluster.null_resource.configuremaster (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configuremaster (local-exec): TASK [Add entry in postgresql file] ********************************************
+module.edb-db-cluster.null_resource.configuremaster: Still creating... [10s elapsed]
+module.edb-db-cluster.null_resource.configuremaster (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configuremaster (local-exec): TASK [change max connection setting] *******************************************
+module.edb-db-cluster.null_resource.configuremaster (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configuremaster (local-exec): TASK [Change synchronous_commit setting if replication type synchronous] *******
+module.edb-db-cluster.null_resource.configuremaster (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configuremaster (local-exec): TASK [Restart service] *********************************************************
+module.edb-db-cluster.null_resource.configuremaster (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configuremaster (local-exec): TASK [Create replication role] *************************************************
+module.edb-db-cluster.null_resource.configuremaster (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configuremaster (local-exec): TASK [Add entry in pg_hba file] ************************************************
+module.edb-db-cluster.null_resource.configuremaster (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configuremaster (local-exec): TASK [Add entry in postgresql file] ********************************************
+module.edb-db-cluster.null_resource.configuremaster (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configuremaster (local-exec): TASK [change max connection setting] *******************************************
+module.edb-db-cluster.null_resource.configuremaster (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configuremaster (local-exec): TASK [Change synchronous_commit setting if replication type is synchronous] ****
+module.edb-db-cluster.null_resource.configuremaster (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configuremaster (local-exec): TASK [Restart service] *********************************************************
+module.edb-db-cluster.null_resource.configuremaster (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configuremaster (local-exec): TASK [Create replication role] *************************************************
+module.edb-db-cluster.null_resource.configuremaster (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configuremaster (local-exec): PLAY RECAP *********************************************************************
+module.edb-db-cluster.null_resource.configuremaster (local-exec): 10.0.11.168                : ok=5    changed=4    unreachable=0    failed=0    skipped=29   rescued=0    ignored=0
+
+module.edb-db-cluster.null_resource.configuremaster: Creation complete after 11s [id=216573010289947745]
+module.edb-db-cluster.null_resource.configureslave1: Creating...
+module.edb-db-cluster.null_resource.configureslave2: Creating...
+module.edb-db-cluster.null_resource.configureslave1: Provisioning with 'local-exec'...
+module.edb-db-cluster.null_resource.configureslave2: Provisioning with 'local-exec'...
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): Executing: ["/bin/sh" "-c" "ansible-playbook -i EDB_SR_SETUP/utilities/scripts/hosts -u centos --private-key '-----BEGIN RSA PRIVATE KEY-----\nMIIEowIBAAKCAQEAho1V6vtMN1VM3t1iFRN0lVbz+JASsRj1+hnlQToVuxvIZjzp\nVLpl40vVDJNPymNMAoNLdJ0O4AjBxCL0imUpXMbc1NVQaOkVmNemxvHk0FyXdAED\nEJYTWhIrsQvH6LYiOx/4IdnnjwnW03LF+KBIYPsUH8PqMK/kgAvhBSCGI69/gffX\nA1XgUQPa9EumSK5+cDC4ikHEtDBPUMCyTVho1xy9cjmscryDH7uub/W8feKCFXlH\nxW32oNwxc3QFW5tDHuctig2Lo9quGhv6xdRXDE9MrMrlImfQjUsFMxn2DwTjpZGG\nugVZo5wLbGyZ6wiY2Tkew+hY4OfE8pS0i7Q4nwIDAQABAoIBAFU3gHnxrKTC5ouk\nBLG6f7TxvFTp0pzNZUSAUB1Oj2LQxsxRuanK4Crj5UwwpHFXEFXrF8gEjN5BTY9O\nYDiit16mKEi3zVSUgvQpaNxJaZS5f8aduXYwxpLePUPFZVgyul1d8wZlfu2t2pxS\n7aV4xj595pHzwAgT7pFWdK6NmcdRNwJ+dpqr3Pii8IXXGEYyZhS+ukiRqxAl/Kcx\nXyKX5rcqRL4v4Lkb8aGd7I6HX0GgXcmrc78Lwx1ZUcM5icbIgwsuzQ9BedcBSnBa\ntS0+hpIPnRX2FVlzEj1RbX1rnwuF3XKjv5W2BpFHbmVYm3cxauJH5xtwepBDt+QU\nxDUsoVkCgYEA6asB0+ZqC2XrfjNPm4GjtxeArGgqqS8cb1wgWA4XU5dpgiKK/Ty5\n053CEolf6tsDgdYeMCvS4/4DvcSgAcQ3MHgadofo34NzSp8PFBEjMk3PRPn34TZP\nVqHTKSTxRJtvyArQ4pXq4ZoetcArcfDRGzGn2QgLDc8bT3Eo2ShmVEUCgYEAk2lU\nD9LZ6ShNplKfjTJOMgVdN0SMlBq4/vcfxhnJHuBH30sjn5HndQKqXCfKNtpwCVgy\nlKImpTcmV53ok7CjsW1GbOwiQp68FgLd8ZeNPi0ETnGkx+OuLD4BauLmAxK1Pct1\nBLeZPi7KnGeYrRHtBbh5aeFXbk6Kve1Z0i+oUZMCgYEA1yq9GB8Ib05+t0sQdyW9\nV4+w0RFqlzfmezTeI7d2C2dVpJuiWOZeR1rxppgRVvYuGJTOX5U7MO5rC4fPv1Cr\ncVpnI9aqvYcR1xj4jYXqXxv/TIjRlPSpwiBpjW2TLZXkLNSo3L0n+G4u8TXvy4/x\nPZVP9i3N3/1iLJkLAEyPTfECgYBnSF8rjxI6+JAfPrinl12OUo/TT2YnxuljSwaq\nKBrwVThGTUEyZmoDY9C1LPPTpwzknzUhStNE4vUsYmk4QYUPpX64hmIix1EFIxEa\nWpMNw0DHLXzEyNOaD/+yQjPiZ1MxbsIYggMOvH4dQ8CHUo39ehknhElb8g/nrstG\nJzoJnQKBgEQ1CVPwBIYKuauKJHGgZELRDyiwEQDpI+bhMh7+M2CsCmxF0mBq31nk\nN1BpY+dG1UCZKhTdU2aUXoTOE1vEk3ezJiZT+/4Mga6L4xqLpXnBS2dDoAPYbQUf\nWR1DDylNxbFaCCkfHmrBIzlRAWc9cHCZ3hnrHu18nlPkkML1eOp5\n-----END RSA PRIVATE KEY-----' 'EDB_SR_SETUP/utilities/scripts/configureslave.yml' --extra-vars='ip1=10.0.11.168 ip2=10.0.13.58 REPLICATION_USER_PASSWORD=rep-password DB_ENGINE=pg12 REPLICATION_TYPE= SLAVE1=10.0.12.171 SLAVE2=10.0.13.58 MASTER=10.0.11.168 S3BUCKET=edb-data-webinar-202009-demo/demo2' --limit 10.0.12.171,10.0.11.168"]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): Executing: ["/bin/sh" "-c" "ansible-playbook -i EDB_SR_SETUP/utilities/scripts/hosts -u centos --private-key '-----BEGIN RSA PRIVATE KEY-----\nMIIEowIBAAKCAQEAho1V6vtMN1VM3t1iFRN0lVbz+JASsRj1+hnlQToVuxvIZjzp\nVLpl40vVDJNPymNMAoNLdJ0O4AjBxCL0imUpXMbc1NVQaOkVmNemxvHk0FyXdAED\nEJYTWhIrsQvH6LYiOx/4IdnnjwnW03LF+KBIYPsUH8PqMK/kgAvhBSCGI69/gffX\nA1XgUQPa9EumSK5+cDC4ikHEtDBPUMCyTVho1xy9cjmscryDH7uub/W8feKCFXlH\nxW32oNwxc3QFW5tDHuctig2Lo9quGhv6xdRXDE9MrMrlImfQjUsFMxn2DwTjpZGG\nugVZo5wLbGyZ6wiY2Tkew+hY4OfE8pS0i7Q4nwIDAQABAoIBAFU3gHnxrKTC5ouk\nBLG6f7TxvFTp0pzNZUSAUB1Oj2LQxsxRuanK4Crj5UwwpHFXEFXrF8gEjN5BTY9O\nYDiit16mKEi3zVSUgvQpaNxJaZS5f8aduXYwxpLePUPFZVgyul1d8wZlfu2t2pxS\n7aV4xj595pHzwAgT7pFWdK6NmcdRNwJ+dpqr3Pii8IXXGEYyZhS+ukiRqxAl/Kcx\nXyKX5rcqRL4v4Lkb8aGd7I6HX0GgXcmrc78Lwx1ZUcM5icbIgwsuzQ9BedcBSnBa\ntS0+hpIPnRX2FVlzEj1RbX1rnwuF3XKjv5W2BpFHbmVYm3cxauJH5xtwepBDt+QU\nxDUsoVkCgYEA6asB0+ZqC2XrfjNPm4GjtxeArGgqqS8cb1wgWA4XU5dpgiKK/Ty5\n053CEolf6tsDgdYeMCvS4/4DvcSgAcQ3MHgadofo34NzSp8PFBEjMk3PRPn34TZP\nVqHTKSTxRJtvyArQ4pXq4ZoetcArcfDRGzGn2QgLDc8bT3Eo2ShmVEUCgYEAk2lU\nD9LZ6ShNplKfjTJOMgVdN0SMlBq4/vcfxhnJHuBH30sjn5HndQKqXCfKNtpwCVgy\nlKImpTcmV53ok7CjsW1GbOwiQp68FgLd8ZeNPi0ETnGkx+OuLD4BauLmAxK1Pct1\nBLeZPi7KnGeYrRHtBbh5aeFXbk6Kve1Z0i+oUZMCgYEA1yq9GB8Ib05+t0sQdyW9\nV4+w0RFqlzfmezTeI7d2C2dVpJuiWOZeR1rxppgRVvYuGJTOX5U7MO5rC4fPv1Cr\ncVpnI9aqvYcR1xj4jYXqXxv/TIjRlPSpwiBpjW2TLZXkLNSo3L0n+G4u8TXvy4/x\nPZVP9i3N3/1iLJkLAEyPTfECgYBnSF8rjxI6+JAfPrinl12OUo/TT2YnxuljSwaq\nKBrwVThGTUEyZmoDY9C1LPPTpwzknzUhStNE4vUsYmk4QYUPpX64hmIix1EFIxEa\nWpMNw0DHLXzEyNOaD/+yQjPiZ1MxbsIYggMOvH4dQ8CHUo39ehknhElb8g/nrstG\nJzoJnQKBgEQ1CVPwBIYKuauKJHGgZELRDyiwEQDpI+bhMh7+M2CsCmxF0mBq31nk\nN1BpY+dG1UCZKhTdU2aUXoTOE1vEk3ezJiZT+/4Mga6L4xqLpXnBS2dDoAPYbQUf\nWR1DDylNxbFaCCkfHmrBIzlRAWc9cHCZ3hnrHu18nlPkkML1eOp5\n-----END RSA PRIVATE KEY-----' 'EDB_SR_SETUP/utilities/scripts/configureslave.yml' --extra-vars='ip1=10.0.11.168 ip2=10.0.12.171 REPLICATION_USER_PASSWORD=rep-password DB_ENGINE=pg12 REPLICATION_TYPE= SLAVE2=10.0.13.58 SLAVE1=10.0.12.171 MASTER=10.0.11.168 S3BUCKET=edb-data-webinar-202009-demo/demo2' --limit 10.0.13.58,10.0.11.168"]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): PLAY [all] *********************************************************************
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Gathering Facts] *********************************************************
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): PLAY [all] *********************************************************************
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Gathering Facts] *********************************************************
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): ok: [10.0.13.58]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): ok: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Create pgpass file] ******************************************************
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Stop DB service] *********************************************************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): ok: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Delete data directory] ***************************************************
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Take pgbase back-up] *****************************************************
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Change permission of data directory] *************************************
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Create recovery.conf file] ***********************************************
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Modify recovery.conf file if replication type synchronous] ***************
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Modify recovery.conf file if replication type synchronous] ***************
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Remove extra lines in file] **********************************************
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Add entry in pg_hba file] ************************************************
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Add entry in pg_hba file] ************************************************
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Start DB process] ********************************************************
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Create pgpass file] ******************************************************
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Stop DB service] *********************************************************
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Delete data directory] ***************************************************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): ok: [10.0.12.171]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Create pgpass file] ******************************************************
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Take pgbase back-up] *****************************************************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Stop DB service] *********************************************************
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Change permission of data directory] *************************************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Delete data directory] ***************************************************
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Create recovery.conf file] ***********************************************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Take pgbase back-up] *****************************************************
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Modify recovery.conf file if replication type synchronous] ***************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Change permission of data directory] *************************************
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Modify recovery.conf file if replication type synchronous] ***************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Remove extra lines in file] **********************************************
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Create recovery.conf file] ***********************************************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Add entry in pg_hba file] ************************************************
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Modify recovery.conf file if replication type synchronous] ***************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Add entry in pg_hba file] ************************************************
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Modify recovery.conf file if replication type synchronous] ***************
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Start DB process] ********************************************************
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Remove extra lines in file] **********************************************
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Add entry in pg_hba file] ************************************************
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Create pgpass file] ******************************************************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Add entry in pg_hba file] ************************************************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Start DB process] ********************************************************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Create pgpass file] ******************************************************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Stop DB service] *********************************************************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Delete data directory] ***************************************************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Take pgbase back-up] *****************************************************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Change permission of data directory] *************************************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Create recovery.conf file] ***********************************************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Modify recovery.conf file if replication type synchronous] ***************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): changed: [10.0.13.58]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Modify recovery.conf file if replication type synchronous] ***************
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Stop DB service] *********************************************************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Remove extra lines in file] **********************************************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Add entry in pg_hba file] ************************************************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Add entry in pg_hba file] ************************************************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Start DB process] ********************************************************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Create pgpass file] ******************************************************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): changed: [10.0.13.58]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Delete data directory] ***************************************************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): changed: [10.0.12.171]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Stop DB service] *********************************************************
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): changed: [10.0.13.58]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Take pgbase back-up] *****************************************************
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): changed: [10.0.12.171]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Delete data directory] ***************************************************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): changed: [10.0.12.171]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Take pgbase back-up] *****************************************************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): changed: [10.0.13.58]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Change permission of data directory] *************************************
+module.edb-db-cluster.null_resource.configureslave1: Still creating... [10s elapsed]
+module.edb-db-cluster.null_resource.configureslave2: Still creating... [10s elapsed]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): changed: [10.0.12.171]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Change permission of data directory] *************************************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): changed: [10.0.13.58]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Modify paramter in postgresql.conf file] *********************************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): changed: [10.0.12.171]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168] => (item={u'To': u"promote_trigger_file = '/var/lib/pgsql/12/data/waltrigger'", u'From': u"^#promote_trigger_file = ''"})
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168] => (item={u'To': u"restore_command = 'aws s3 cp s3://edb-data-webinar-202009-demo/demo2/%f %p'", u'From': u"^#restore_command = ''"})
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168] => (item={u'To': u"recovery_target_timeline = 'latest'", u'From': u"#recovery_target_timeline = 'latest'"})
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Modify paramter in postgresql.conf file] *********************************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168] => (item={u'To': u"promote_trigger_file = '/var/lib/pgsql/12/data/waltrigger'", u'From': u"^#promote_trigger_file = ''"})
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168] => (item={u'To': u"restore_command = 'aws s3 cp s3://edb-data-webinar-202009-demo/demo2/%f %p'", u'From': u"^#restore_command = ''"})
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168] => (item={u'To': u"recovery_target_timeline = 'latest'", u'From': u"#recovery_target_timeline = 'latest'"})
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): changed: [10.0.13.58] => (item={u'To': u"promote_trigger_file = '/var/lib/pgsql/12/data/waltrigger'", u'From': u"^#promote_trigger_file = ''"})
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): changed: [10.0.12.171] => (item={u'To': u"promote_trigger_file = '/var/lib/pgsql/12/data/waltrigger'", u'From': u"^#promote_trigger_file = ''"})
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): changed: [10.0.13.58] => (item={u'To': u"restore_command = 'aws s3 cp s3://edb-data-webinar-202009-demo/demo2/%f %p'", u'From': u"^#restore_command = ''"})
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): changed: [10.0.12.171] => (item={u'To': u"restore_command = 'aws s3 cp s3://edb-data-webinar-202009-demo/demo2/%f %p'", u'From': u"^#restore_command = ''"})
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): changed: [10.0.12.171] => (item={u'To': u"recovery_target_timeline = 'latest'", u'From': u"#recovery_target_timeline = 'latest'"})
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Modify paramter in postgresql.conf file if synchronous replication] ******
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): changed: [10.0.13.58] => (item={u'To': u"recovery_target_timeline = 'latest'", u'From': u"#recovery_target_timeline = 'latest'"})
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Modify paramter in postgresql.conf file if synchronous replication] ******
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Modify paramter in postgresql.conf file if synchronous replication] ******
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Modify paramter in postgresql.conf file if synchronous replication] ******
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Modify paramter in postgresql.conf file if synchronous replication] ******
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Modify paramter in postgresql.conf file if synchronous replication] ******
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Modify paramter in postgresql.conf file if synchronous replication] ******
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Modify paramter in postgresql.conf file if synchronous replication] ******
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Add entry in pg_hba file] ************************************************
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Add entry in pg_hba file] ************************************************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Add entry in pg_hba file] ************************************************
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): ok: [10.0.12.171]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Add entry in pg_hba file] ************************************************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Start DB process] ********************************************************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): ok: [10.0.13.58]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Start DB process] ********************************************************
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): changed: [10.0.12.171]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Create pgpass file] ******************************************************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Stop DB service] *********************************************************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): changed: [10.0.13.58]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Delete data directory] ***************************************************
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Create pgpass file] ******************************************************
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Stop DB service] *********************************************************
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Take pgbase back-up] *****************************************************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Delete data directory] ***************************************************
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Change permission of data directory] *************************************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Create recovery.conf file] ***********************************************
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Take pgbase back-up] *****************************************************
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Change permission of data directory] *************************************
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Modify recovery.conf file if replication type synchronous] ***************
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Create recovery.conf file] ***********************************************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Modify recovery.conf file if replication type synchronous] ***************
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Modify recovery.conf file if replication type synchronous] ***************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Remove extra lines in file] **********************************************
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Add entry in pg_hba file] ************************************************
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Modify recovery.conf file if replication type synchronous] ***************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Add entry in pg_hba file] ************************************************
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Remove extra lines in file] **********************************************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Start DB process] ********************************************************
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Add entry in pg_hba file] ************************************************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Add entry in pg_hba file] ************************************************
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Create pgpass file] ******************************************************
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Start DB process] ********************************************************
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Stop DB service] *********************************************************
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Delete data directory] ***************************************************
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Create pgpass file] ******************************************************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Take pgbase back-up] *****************************************************
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Stop DB service] *********************************************************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Delete data directory] ***************************************************
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Change permission of data directory] *************************************
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Create recovery.conf file] ***********************************************
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Take pgbase back-up] *****************************************************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Modify recovery.conf file if replication type synchronous] ***************
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Change permission of data directory] *************************************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Create recovery.conf file] ***********************************************
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Modify recovery.conf file if replication type synchronous] ***************
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Modify recovery.conf file if replication type synchronous] ***************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Remove extra lines in file] **********************************************
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Modify recovery.conf file if replication type synchronous] ***************
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Add entry in pg_hba file] ************************************************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Remove extra lines in file] **********************************************
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Add entry in pg_hba file] ************************************************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Start DB process] ********************************************************
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Add entry in pg_hba file] ************************************************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Add entry in pg_hba file] ************************************************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Create pgpass file] ******************************************************
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Start DB process] ********************************************************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Stop DB service] *********************************************************
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Create pgpass file] ******************************************************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Delete data directory] ***************************************************
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Stop DB service] *********************************************************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Take pgbase back-up] *****************************************************
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Delete data directory] ***************************************************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Change permission of data directory] *************************************
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Take pgbase back-up] *****************************************************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Modify paramter in postgresql.conf file] *********************************
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168] => (item={u'To': u"promote_trigger_file = '/var/lib/edb/as12/data/waltrigger'", u'From': u"^#promote_trigger_file = ''"})
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168] => (item={u'To': u"restore_command = 'aws s3 cp s3://edb-data-webinar-202009-demo/demo2/%f %p'", u'From': u"^#restore_command = ''"})
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168] => (item={u'To': u"recovery_target_timeline = 'latest'", u'From': u"#recovery_target_timeline = 'latest'"})
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Change permission of data directory] *************************************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171] => (item={u'To': u"promote_trigger_file = '/var/lib/edb/as12/data/waltrigger'", u'From': u"^#promote_trigger_file = ''"})
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171] => (item={u'To': u"restore_command = 'aws s3 cp s3://edb-data-webinar-202009-demo/demo2/%f %p'", u'From': u"^#restore_command = ''"})
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171] => (item={u'To': u"recovery_target_timeline = 'latest'", u'From': u"#recovery_target_timeline = 'latest'"})
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Modify paramter in postgresql.conf file if synchronous replication] ******
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Modify paramter in postgresql.conf file] *********************************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Modify paramter in postgresql.conf file if synchronous replication] ******
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58] => (item={u'To': u"promote_trigger_file = '/var/lib/edb/as12/data/waltrigger'", u'From': u"^#promote_trigger_file = ''"})
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58] => (item={u'To': u"restore_command = 'aws s3 cp s3://edb-data-webinar-202009-demo/demo2/%f %p'", u'From': u"^#restore_command = ''"})
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58] => (item={u'To': u"recovery_target_timeline = 'latest'", u'From': u"#recovery_target_timeline = 'latest'"})
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168] => (item={u'To': u"promote_trigger_file = '/var/lib/edb/as12/data/waltrigger'", u'From': u"^#promote_trigger_file = ''"})
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168] => (item={u'To': u"restore_command = 'aws s3 cp s3://edb-data-webinar-202009-demo/demo2/%f %p'", u'From': u"^#restore_command = ''"})
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168] => (item={u'To': u"recovery_target_timeline = 'latest'", u'From': u"#recovery_target_timeline = 'latest'"})
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Modify paramter in postgresql.conf file if synchronous replication] ******
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Add entry in pg_hba file] ************************************************
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Modify paramter in postgresql.conf file if synchronous replication] ******
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Add entry in pg_hba file] ************************************************
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Add entry in pg_hba file] ************************************************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Start DB process] ********************************************************
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58]
+module.edb-db-cluster.null_resource.configureslave1: Still creating... [20s elapsed]
+module.edb-db-cluster.null_resource.configureslave2: Still creating... [20s elapsed]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Add entry in pg_hba file] ************************************************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.12.171]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): PLAY [10.0.11.168] *************************************************************
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Gathering Facts] *********************************************************
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Start DB process] ********************************************************
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.13.58]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): PLAY [10.0.11.168] *************************************************************
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Gathering Facts] *********************************************************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): ok: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Change in postgresql.conf file] ******************************************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Restart DB service] ******************************************************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Change in postgresql.conf file] ******************************************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Restart DB service] ******************************************************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Change in postgresql.conf file] ******************************************
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): ok: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Change in postgresql.conf file] ******************************************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Restart DB service] ******************************************************
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Restart DB service] ******************************************************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Change in postgresql.conf file] ******************************************
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Change in postgresql.conf file] ******************************************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Restart DB service] ******************************************************
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Restart DB service] ******************************************************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Change in postgresql.conf file] ******************************************
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Change in postgresql.conf file] ******************************************
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Restart DB service] ******************************************************
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Restart DB service] ******************************************************
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Change in postgresql.conf file] ******************************************
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Change in postgresql.conf file] ******************************************
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Restart DB service] ******************************************************
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): TASK [Restart DB service] ******************************************************
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): PLAY RECAP *********************************************************************
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): 10.0.11.168                : ok=2    changed=0    unreachable=0    failed=0    skipped=84   rescued=0    ignored=0
+module.edb-db-cluster.null_resource.configureslave1 (local-exec): 10.0.12.171                : ok=9    changed=7    unreachable=0    failed=0    skipped=64   rescued=0    ignored=0
+
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Change in postgresql.conf file] ******************************************
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Restart DB service] ******************************************************
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Change in postgresql.conf file] ******************************************
+module.edb-db-cluster.null_resource.configureslave1: Creation complete after 21s [id=2967856101874267720]
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): TASK [Restart DB service] ******************************************************
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): skipping: [10.0.11.168]
+
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): PLAY RECAP *********************************************************************
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): 10.0.11.168                : ok=2    changed=0    unreachable=0    failed=0    skipped=84   rescued=0    ignored=0
+module.edb-db-cluster.null_resource.configureslave2 (local-exec): 10.0.13.58                 : ok=9    changed=7    unreachable=0    failed=0    skipped=64   rescued=0    ignored=0
+
+module.edb-db-cluster.null_resource.configureslave2: Creation complete after 21s [id=2527838821709900159]
+module.edb-db-cluster.null_resource.removehostfile: Creating...
+module.edb-db-cluster.null_resource.removehostfile: Provisioning with 'local-exec'...
+module.edb-db-cluster.null_resource.removehostfile (local-exec): Executing: ["/bin/sh" "-c" "rm -rf EDB_SR_SETUP/utilities/scripts/hosts"]
+module.edb-db-cluster.null_resource.removehostfile: Creation complete after 0s [id=6924748515469908752]
+
+Apply complete! Resources: 9 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+CLUSTER_NAME = demo2
+DBENGINE = pg12
+Key-Pair = key-demo2
+Key-Pair-Path = /home/ec2-user/postgres-deployment/key-demo2.pem
+Master-PrivateIP = 10.0.11.168
+Master-PublicIP = 10.10.0.1
+Region = ap-northeast-1
+S3BUCKET = edb-data-webinar-202009-demo/demo2
+Standby1-PrivateIP = 10.0.12.171
+Standby1-PublicIP = 10.0.12.171
+Standby2-PrivateIP = 10.0.13.58
+Standby2-PublicIP = 10.0.13.58
