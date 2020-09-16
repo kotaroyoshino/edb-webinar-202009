@@ -38,7 +38,7 @@ module "efm-db-cluster" {
 
   # Enter route table ID of private subnet
 
-  route_table_id = "rtb-06bfed7eedf87b732"
+  route_table_id = "rtb-04c3ac591c637c71e"
 
   # bastion_ip
 

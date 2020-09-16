@@ -32,7 +32,7 @@ data "aws_ami" "centos_ami" {
 
 resource "aws_security_group" "edb_sg" {
     count = var.custom_security_group_id == "" ? 1 : 0 
-    name = "edb_security_groupforsr"
+    name = "edb_security_groupforsr_private"
     description = "Rule for edb-terraform-resource"
     vpc_id = var.vpc_id
 
